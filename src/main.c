@@ -1,4 +1,4 @@
-#include <functions.h>
+#include "../include/functions.h"
 
 const void (*hello[])() = {hello_c, hello_cpp, hello_rust};
 

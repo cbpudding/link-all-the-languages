@@ -1,38 +1,25 @@
-CC=clang
-CXX=clang
-LD=ld.lld
-RUST=rustc
+.PHONY:
+run: build/hello
+	./build/hello
 
-CFLAGS=$(shell llvm-config --cflags) -emit-llvm -Iinclude
-CXXFLAGS=$(shell llvm-config --cxxflags) -emit-llvm
-LDFLAGS=$(shell llvm-config --ldflags)
-RUSTFLAGS=--crate-type=lib --emit=llvm-bc
+build/hello: build/librust_hello.a build/hello_cpp.a
+	$(CC) src/main.c src/hello.c build/hello_cpp.a build/librust_hello.a -o build/hello -lstdc++
+build/librust_hello.a: src/rust-hello/*
+	sh -c "cd src/rust-hello &&\
+		cargo build --release &&\
+		cp target/release/librust_hello.a ../../build/librust_hello.a &&\
+		cd ../.."
+build/hello_cpp.a: build/hello_cpp.o
+	$(AR) rcs build/hello_cpp.a build/hello_cpp.o
+build/hello_cpp.o: src/hello.cpp
+	$(CXX) -c src/hello.cpp -o build/hello_cpp.o
 
-LDLIBS=stdc++
-OBJECTS=$(addprefix build/, $(addsuffix .ll, hello.c hello.cpp hello.rs main.c))
-
-.PHONY: all
-all: link
-
-.PHONY: link
-link: build
-	$(LD) $(LDFLAGS) $(addprefix -l, $(LDLIBS)) -o hello $(OBJECTS)
-
-.PHONY: build
-build: build/ $(OBJECTS)
-
-.PHONY: clean
-clean:
-	$(RM) $(OBJECTS) hello
-
-build/:
+.PHONY:
+clean: clean_rust
+	rm -rf build
 	mkdir -p build
 
-build/%.cpp.ll: src/%.cpp build/
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
-
-build/%.rs.ll: src/%.rs build/
-	$(RUST) $(RUSTFLAGS) -o $@ $<
-
-build/%.c.ll: src/%.c build/
-	$(CC) $(CFLAGS) -c -o $@ $<
+.PHONY:
+clean_rust:
+	sh -c "cd src/rust-hello &&\
+		cargo clean"
