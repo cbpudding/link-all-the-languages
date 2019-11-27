@@ -1,38 +1,52 @@
+AR=ar
 CC=clang
-CXX=clang
-LD=ld.lld
-RUST=rustc
+CXX=clang++
 
-CFLAGS=$(shell llvm-config --cflags) -emit-llvm -Iinclude
-CXXFLAGS=$(shell llvm-config --cxxflags) -emit-llvm
-LDFLAGS=$(shell llvm-config --ldflags)
-RUSTFLAGS=--crate-type=lib --emit=llvm-bc
+ifeq ($(shell uname),Darwin)
+    LDFLAGS := -Wl,-dead_strip
+else
+    LDFLAGS := -Wl,--gc-sections -lpthread -ldl
+endif
 
-LDLIBS=stdc++
-OBJECTS=$(addprefix build/, $(addsuffix .ll, hello.c hello.cpp hello.rs main.c))
+ZIGFLAGS:=-fPIC --bundle-compiler-rt
 
-.PHONY: all
-all: link
+all: target/link-all-languages
+	@printf "\x1b[0;36mRunning ...\e[0m\n"
+	@target/link-all-languages
+	@printf "\e[92mDone\e[0m\n"
 
-.PHONY: link
-link: build
-	$(LD) $(LDFLAGS) $(addprefix -l, $(LDLIBS)) -o hello $(OBJECTS)
+target:
+	@mkdir -p $@
 
-.PHONY: build
-build: build/ $(OBJECTS)
+target/link-all-languages: target/main.o target/debug/libhello_rust.a target/debug/libhello_cpp.a target/debug/libhello_c.a target/debug/libhello_zig.a
+	@$(CC) -o $@ $^ $(LDFLAGS) -lstdc++
 
-.PHONY: clean
+target/debug/libhello_rust.a: src/lib.rs Cargo.toml
+	@printf "\x1b[0;36mBuilding $@ ...\e[0m\n"
+	@cargo build
+	@printf "\e[92mBuilt $@\e[0m\n"
+
+target/debug/libhello_cpp.a: src/lib.cpp
+	@printf "\x1b[0;36mBuilding $@ ...\e[0m\n"
+	@$(CXX) -c $^ -o target/debug/libhello_cpp.o
+	@$(AR) rcs $@ target/debug/libhello_cpp.o
+	@printf "\e[92mBuilt $@\e[0m\n"
+
+target/debug/libhello_c.a: src/lib.c
+	@printf "\x1b[0;36mBuilding $@ ...\e[0m\n"
+	@$(CC) -c $^ -o target/debug/libhello_c.o
+	@$(AR) rcs $@ target/debug/libhello_c.o
+	@printf "\e[92mBuilt $@\e[0m\n"
+
+target/debug/libhello_zig.a: src/lib.zig
+	@printf "\x1b[0;36mBuilding $@ ...\e[0m\n"
+	@zig build-lib $^ --output-dir target/debug --name hello_zig $(ZIGFLAGS)
+	@printf "\e[92mBuilt $@\e[0m\n"
+
+target/main.o: src/main.c | target
+	@printf "\x1b[0;36mBuilding $@ ...\e[0m\n"
+	@$(CC) -o $@ -c $<
+	@printf "\e[92mBuilt $@\e[0m\n"
+
 clean:
-	$(RM) $(OBJECTS) hello
-
-build/:
-	mkdir -p build
-
-build/%.cpp.ll: src/%.cpp build/
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
-
-build/%.rs.ll: src/%.rs build/
-	$(RUST) $(RUSTFLAGS) -o $@ $<
-
-build/%.c.ll: src/%.c build/
-	$(CC) $(CFLAGS) -c -o $@ $<
+	@rm -rf target
