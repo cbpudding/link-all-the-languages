@@ -6,7 +6,7 @@ build/hello: build/librust_hello.a build/hello_cpp.a
 	$(CC) src/main.c src/hello.c build/hello_cpp.a build/librust_hello.a -o build/hello -lstdc++
 build/librust_hello.a: src/rust-hello/*
 	sh -c "cd src/rust-hello &&\
-		cargo build --release &&\
+		cargo build --release --target-dir target &&\
 		cp target/release/librust_hello.a ../../build/librust_hello.a &&\
 		cd ../.."
 build/hello_cpp.a: build/hello_cpp.o
