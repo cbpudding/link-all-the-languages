@@ -1,6 +1,6 @@
-AR=ar
-CC=clang
-CXX=clang++
+AR?=ar
+CC?=clang
+CXX?=clang++
 
 ifeq ($(shell uname),Darwin)
     LDFLAGS := -Wl,-dead_strip
@@ -10,10 +10,15 @@ endif
 
 ZIGFLAGS:=-fPIC --bundle-compiler-rt
 
+.PHONY:
 all: target/link-all-languages
-	@printf "\x1b[0;36mRunning ...\e[0m\n"
+	@printf "\x1b[0;36mRunning...\e[0m\n"
 	@target/link-all-languages
 	@printf "\e[92mDone\e[0m\n"
+
+.PHONY:
+run: target/link-all-languages
+	@target/link-all-languages
 
 target:
 	@mkdir -p $@
@@ -23,7 +28,7 @@ target/link-all-languages: target/main.o target/debug/libhello_rust.a target/deb
 
 target/debug/libhello_rust.a: src/lib.rs Cargo.toml
 	@printf "\x1b[0;36mBuilding $@ ...\e[0m\n"
-	@cargo build
+	@cargo build --target-dir target
 	@printf "\e[92mBuilt $@\e[0m\n"
 
 target/debug/libhello_cpp.a: src/lib.cpp
@@ -48,5 +53,6 @@ target/main.o: src/main.c | target
 	@$(CC) -o $@ -c $<
 	@printf "\e[92mBuilt $@\e[0m\n"
 
+.PHONY:
 clean:
 	@rm -rf target
