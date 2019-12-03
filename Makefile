@@ -13,7 +13,6 @@ ZIGFLAGS:=-fPIC --bundle-compiler-rt
 
 .PHONY:
 all: target/link-all-languages
-	target/link-all-languages
 
 .PHONY:
 run: target/link-all-languages
