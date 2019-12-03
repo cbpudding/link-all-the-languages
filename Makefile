@@ -1,38 +1,47 @@
-CC=clang
-CXX=clang
-LD=ld.lld
-RUST=rustc
+AR?=ar
+CC?=clang
+CXX?=clang++
+LD?=ld.lld
 
-CFLAGS=$(shell llvm-config --cflags) -emit-llvm -Iinclude
-CXXFLAGS=$(shell llvm-config --cxxflags) -emit-llvm
-LDFLAGS=$(shell llvm-config --ldflags)
-RUSTFLAGS=--crate-type=lib --emit=llvm-bc
+ifeq ($(shell uname),Darwin)
+    LDFLAGS := -Wl,-dead_strip -fuse-ld=lld
+else
+    LDFLAGS := -Wl,--gc-sections -lpthread -ldl -fuse-ld=lld
+endif
 
-LDLIBS=stdc++
-OBJECTS=$(addprefix build/, $(addsuffix .ll, hello.c hello.cpp hello.rs main.c))
+ZIGFLAGS:=-fPIC --bundle-compiler-rt
 
-.PHONY: all
-all: link
+.PHONY:
+all: target/link-all-languages
+	target/link-all-languages
 
-.PHONY: link
-link: build
-	$(LD) $(LDFLAGS) $(addprefix -l, $(LDLIBS)) -o hello $(OBJECTS)
+.PHONY:
+run: target/link-all-languages
+	@target/link-all-languages
 
-.PHONY: build
-build: build/ $(OBJECTS)
+target:
+	mkdir -p $@
 
-.PHONY: clean
+target/link-all-languages: target/main.o target/debug/libhello_rust.a target/debug/libhello_cpp.a target/debug/libhello_c.a target/debug/libhello_zig.a
+	$(CC) -o $@ $^ $(LDFLAGS) -lstdc++
+
+target/debug/libhello_rust.a: src/lib.rs Cargo.toml
+	cargo build --target-dir target
+
+target/debug/libhello_cpp.a: src/lib.cpp
+	$(CXX) -c $^ -o target/debug/libhello_cpp.o
+	$(AR) rcs $@ target/debug/libhello_cpp.o
+
+target/debug/libhello_c.a: src/lib.c
+	$(CC) -c $^ -o target/debug/libhello_c.o
+	$(AR) rcs $@ target/debug/libhello_c.o
+
+target/debug/libhello_zig.a: src/lib.zig
+	zig build-lib $^ --output-dir target/debug --name hello_zig $(ZIGFLAGS)
+
+target/main.o: src/main.c | target
+	$(CC) -o $@ -c $<
+
+.PHONY:
 clean:
-	$(RM) $(OBJECTS) hello
-
-build/:
-	mkdir -p build
-
-build/%.cpp.ll: src/%.cpp build/
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
-
-build/%.rs.ll: src/%.rs build/
-	$(RUST) $(RUSTFLAGS) -o $@ $<
-
-build/%.c.ll: src/%.c build/
-	$(CC) $(CFLAGS) -c -o $@ $<
+	@rm -rf target
