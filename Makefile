@@ -21,8 +21,8 @@ run: target/link-all-languages
 target:
 	mkdir -p $@
 
-target/link-all-languages: target/main.o target/debug/libhello_rust.a target/debug/libhello_cpp.a target/debug/libhello_c.a target/debug/libhello_zig.a
-	$(CC) -o $@ $^ $(LDFLAGS) -lstdc++
+target/link-all-languages: target/main.o target/debug/libhello_rust.a target/debug/libhello_cpp.a target/debug/libhello_c.a target/debug/libhello_zig.a target/debug/libhello_fortran.a
+	$(CC) -o $@ $^ $(LDFLAGS) -lgfortran -lstdc++
 
 target/debug/libhello_rust.a: src/lib.rs Cargo.toml
 	cargo build --target-dir target
@@ -37,6 +37,10 @@ target/debug/libhello_c.a: src/lib.c
 
 target/debug/libhello_zig.a: src/lib.zig
 	zig build-lib $^ --output-dir target/debug --name hello_zig $(ZIGFLAGS)
+
+target/debug/libhello_fortran.a: src/lib.f
+	gfortran -ffree-form -c $^ -o target/debug/libhello_fortran.o
+	$(AR) rcs $@ target/debug/libhello_fortran.o
 
 target/main.o: src/main.c | target
 	$(CC) -o $@ -c $<
