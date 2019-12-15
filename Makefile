@@ -38,7 +38,7 @@ target/debug/libhello_c.a: src/lib.c
 target/debug/libhello_zig.a: src/lib.zig
 	zig build-lib $^ --output-dir target/debug --name hello_zig $(ZIGFLAGS)
 
-target/debug/libhello_fortran.a: src/lib.f
+target/debug/libhello_fortran.a: src/lib.f95
 	gfortran -ffree-form -c $^ -o target/debug/libhello_fortran.o
 	$(AR) rcs $@ target/debug/libhello_fortran.o
 
