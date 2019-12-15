@@ -18,7 +18,7 @@ all: target/link-all-languages
 run: target/link-all-languages
 	@target/link-all-languages
 
-target:
+target/debug:
 	mkdir -p $@
 
 target/link-all-languages: target/main.o target/debug/libhello_rust.a target/debug/libhello_cpp.a target/debug/libhello_c.a target/debug/libhello_zig.a target/debug/libhello_fortran.a
@@ -42,7 +42,7 @@ target/debug/libhello_fortran.a: src/lib.f
 	gfortran -ffree-form -c $^ -o target/debug/libhello_fortran.o
 	$(AR) rcs $@ target/debug/libhello_fortran.o
 
-target/main.o: src/main.c | target
+target/main.o: src/main.c | target/debug
 	$(CC) -o $@ -c $<
 
 .PHONY:
