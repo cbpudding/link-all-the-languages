@@ -167,7 +167,7 @@ def main_o(**info):
 
 
 def funcs_header_from_names(func_names):
-    externs = "\n".join("extern const void {};".format(name) for name in func_names)
+    externs = "\n".join("extern const void {}();".format(name) for name in func_names)
     externs += "\n\n"
     externs += "const void (*hello[])() = {{ {} }};".format(", ".join(func_names))
     externs += "\n"
@@ -181,13 +181,14 @@ def funcs_header_from_funcs(funcs):
         cpp_a: 'hello_cpp',
         c_a: 'hello_c',
         zig_a: 'hello_zig',
-        fortran_a: 'hello_fortran'
+        fortran_a: 'hello_fortran',
+        d_a: 'hello_d'
     }
     return funcs_header_from_names([names[x] for x in funcs])
 
 def linker_flags_from_funcs(funcs):
     flags = {
-        cpp_a: '-lstd++',
+        cpp_a: '-lstdc++',
         d_a: '-lphobos2',
         fortran_a: '-lgfortran'
     }
@@ -197,18 +198,23 @@ def linker_flags_from_funcs(funcs):
             flaglist.append(f)
     return " ".join(flags[x] for x in flaglist)
 
+def write_funcs_header_with_funcs(funcs):
+    data = funcs_header_from_funcs(funcs)
+    with open("src/functions.h", "w") as funcsfile:
+        funcsfile.write(data)
+
 @output("target/link-all-languages")
-@partial_dependent([rust_a, cpp_a, d_a, c_a, zig_a, fortran_a])
+@partial_dependent([c_a, cpp_a, d_a, fortran_a, rust_a, zig_a])
 @dependent(main_o)
 def link_all_the_languages(output, deps, partial_deps):
-    deps = par_join(rust_a(), cpp_a(), d_a(), c_a(),
-                zig_a(), fortran_a(), main_o())
-    target = CC("-o target/link-all-languages target/main.o target/debug/libhello_rust.a target/debug/libhello_cpp.a target/debug/libhello_d.a target/debug/libhello_c.a target/debug/libhello_zig.a target/debug/libhello_fortran.a -Wl,--gc-sections -lpthread -ldl -fuse-ld=lld -lgfortran -lphobos2 -lstdc++")
+    deps = par_join(*[f() for f in partial_deps])
+    target = lambda use_deps, flags: CC("-o target/link-all-languages target/main.o {} -Wl,--gc-sections -lpthread -ldl -fuse-ld=lld {}".format(" ".join(x.out for x in use_deps), flags))
     def linked():
         statuses = deps()
-        use_funcs = (x[1] for x in filter(lambda x: x[0], zip(statuses, partial_deps)))
-        # print(funcs_header_from_funcs(use_funcs))
-        return target()
+        use_funcs = [x[1] for x in filter(lambda x: x[0], zip(statuses, partial_deps))]
+        write_funcs_header_with_funcs(use_funcs)
+        main_o()()
+        return target(use_funcs, linker_flags_from_funcs(use_funcs))()
     return linked
 
 #### Build Invocation ####
