@@ -120,6 +120,9 @@ def ZIG(args):
 def FORTRAN(args):
     return sh("{} {}".format(env('FORTRAN', "gfortran"),
                              args))
+def D(args):
+    return sh("{} {}".format(env('DLANG', 'dmd'),
+                             args))
 
 #### Targets Section ####
 
@@ -133,6 +136,12 @@ def rust_a(**info):
 def cpp_a(**info):
     return seq_join(CXX("-c src/lib.cpp -o target/debug/libhello_cpp.o"),
                 AR("rcs target/debug/libhello_cpp.a target/debug/libhello_cpp.o"))
+
+@output("target/debug/libhello_d.a")
+@dependent("src/lib.d")
+def d_a(**info):
+    return seq_join(D("-c src/lib.d -oftarget/debug/libhello_d.o"),
+                    AR("rcs target/debug/libhello_d.a target/debug/libhello_d.o"))
 
 @output("target/debug/libhello_c.a")
 @dependent("src/lib.c")
@@ -159,22 +168,46 @@ def main_o(**info):
 
 def funcs_header_from_names(func_names):
     externs = "\n".join("extern const void {};".format(name) for name in func_names)
-    externs += "\n"
+    externs += "\n\n"
     externs += "const void (*hello[])() = {{ {} }};".format(", ".join(func_names))
     externs += "\n"
     externs += "#define NUMBER_OF_LANGUAGES sizeof(hello) / sizeof(hello[0])"
     externs += "\n"
     return externs
 
+def funcs_header_from_funcs(funcs):
+    names = {
+        rust_a: 'hello_rust',
+        cpp_a: 'hello_cpp',
+        c_a: 'hello_c',
+        zig_a: 'hello_zig',
+        fortran_a: 'hello_fortran'
+    }
+    return funcs_header_from_names([names[x] for x in funcs])
+
+def linker_flags_from_funcs(funcs):
+    flags = {
+        cpp_a: '-lstd++',
+        d_a: '-lphobos2',
+        fortran_a: '-lgfortran'
+    }
+    flaglist = []
+    for f in funcs:
+        if f in flags:
+            flaglist.append(f)
+    return " ".join(flags[x] for x in flaglist)
+
 @output("target/link-all-languages")
-@partial_dependent([rust_a, cpp_a, c_a, zig_a, fortran_a])
+@partial_dependent([rust_a, cpp_a, d_a, c_a, zig_a, fortran_a])
 @dependent(main_o)
 def link_all_the_languages(output, deps, partial_deps):
-    deps = par_join(rust_a(), cpp_a(), c_a(),
+    deps = par_join(rust_a(), cpp_a(), d_a(), c_a(),
                 zig_a(), fortran_a(), main_o())
-    target = CC("-o target/link-all-languages target/main.o target/debug/libhello_rust.a target/debug/libhello_cpp.a target/debug/libhello_c.a target/debug/libhello_zig.a target/debug/libhello_fortran.a -Wl,--gc-sections -lpthread -ldl -fuse-ld=lld -lgfortran -lstdc++")
+    target = CC("-o target/link-all-languages target/main.o target/debug/libhello_rust.a target/debug/libhello_cpp.a target/debug/libhello_d.a target/debug/libhello_c.a target/debug/libhello_zig.a target/debug/libhello_fortran.a -Wl,--gc-sections -lpthread -ldl -fuse-ld=lld -lgfortran -lphobos2 -lstdc++")
     def linked():
-        deps()
+        statuses = deps()
+        use_funcs = (x[1] for x in filter(lambda x: x[0], zip(statuses, partial_deps)))
+        # print(funcs_header_from_funcs(use_funcs))
         return target()
     return linked
 
