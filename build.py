@@ -103,10 +103,10 @@ def env(name, default):
 
 # Environment dependent build commands
 def CC(args):
-    return sh("{} {}".format(env('CC', "gcc"),
+    return sh("{} -Os -march=native -mtune=native {}".format(env('CC', "gcc"),
                              args))
 def CXX(args):
-    return sh("{} {}".format(env('CXX', "g++"),
+    return sh("{} -Os -march=native {} -mtune=native ".format(env('CXX', "g++"),
                              args))
 def AR(args):
     return sh("{} {}".format(env('AR', "ar"),
@@ -118,47 +118,47 @@ def ZIG(args):
     return sh("{} {}".format(env('ZIG', "zig"),
                              args))
 def FORTRAN(args):
-    return sh("{} {}".format(env('FORTRAN', "gfortran"),
+    return sh("{} -Os -march=native -mtune=native {}".format(env('FORTRAN', "gfortran"),
                              args))
 def D(args):
-    return sh("{} {}".format(env('DLANG', 'dmd'),
+    return sh("{} -O -release {}".format(env('DLANG', 'dmd'),
                              args))
 
 #### Targets Section ####
 
-@output("target/debug/libhello_rust.a")
+@output("target/release/libhello_rust.a")
 @dependent(["src/lib.rs", "Cargo.toml", "Cargo.lock"])
 def rust_a(**info):
-    return seq_join(sh("cargo build --target-dir target"))
+    return seq_join(sh("cargo build --release --target-dir target"))
 
-@output("target/debug/libhello_cpp.a")
+@output("target/release/libhello_cpp.a")
 @dependent("src/lib.cpp")
 def cpp_a(**info):
-    return seq_join(CXX("-c src/lib.cpp -o target/debug/libhello_cpp.o"),
-                AR("rcs target/debug/libhello_cpp.a target/debug/libhello_cpp.o"))
+    return seq_join(CXX("-c src/lib.cpp -o target/release/libhello_cpp.o"),
+                AR("rcs target/release/libhello_cpp.a target/release/libhello_cpp.o"))
 
-@output("target/debug/libhello_d.a")
+@output("target/release/libhello_d.a")
 @dependent("src/lib.d")
 def d_a(**info):
-    return seq_join(D("-c src/lib.d -oftarget/debug/libhello_d.o"),
-                    AR("rcs target/debug/libhello_d.a target/debug/libhello_d.o"))
+    return seq_join(D("-c src/lib.d -oftarget/release/libhello_d.o"),
+                    AR("rcs target/release/libhello_d.a target/release/libhello_d.o"))
 
-@output("target/debug/libhello_c.a")
+@output("target/release/libhello_c.a")
 @dependent("src/lib.c")
 def c_a(**info):
-    return seq_join(CC("-c src/lib.c -o target/debug/libhello_c.o"),
-                AR("rcs target/debug/libhello_c.a target/debug/libhello_c.o"))
+    return seq_join(CC("-c src/lib.c -o target/release/libhello_c.o"),
+                AR("rcs target/release/libhello_c.a target/release/libhello_c.o"))
 
-@output("target/debug/libhello_zig.a")
+@output("target/release/libhello_zig.a")
 @dependent("src/lib.zig")
 def zig_a(**info):
-    return seq_join(ZIG("build-lib src/lib.zig --output-dir target/debug --name hello_zig -fPIC --bundle-compiler-rt"))
+    return seq_join(ZIG("build-lib src/lib.zig --output-dir target/release --name hello_zig -fPIC --bundle-compiler-rt"))
 
-@output("target/debug/libhello_fortran.a")
+@output("target/release/libhello_fortran.a")
 @dependent("src/lib.f95")
 def fortran_a(**info):
-    return seq_join(FORTRAN("-ffree-form -c src/lib.f95 -o target/debug/libhello_fortran.o"),
-                AR("rcs target/debug/libhello_fortran.a target/debug/libhello_fortran.o"))
+    return seq_join(FORTRAN("-ffree-form -c src/lib.f95 -o target/release/libhello_fortran.o"),
+                AR("rcs target/release/libhello_fortran.a target/release/libhello_fortran.o"))
 
 @output("target/main.o")
 @dependent("src/main.c")
@@ -219,6 +219,6 @@ def link_all_the_languages(output, deps, partial_deps):
 
 #### Build Invocation ####
 
-job = seq_join(sh("mkdir -p target/debug"),
+job = seq_join(sh("mkdir -p target/release"),
                link_all_the_languages())
 job()
