@@ -18,35 +18,35 @@ all: target/link-all-languages
 run: target/link-all-languages
 	@target/link-all-languages
 
-target/debug:
+target/release:
 	mkdir -p $@
 
-target/link-all-languages: target/main.o target/debug/libhello_rust.a target/debug/libhello_cpp.a target/debug/libhello_d.a target/debug/libhello_c.a target/debug/libhello_zig.a target/debug/libhello_fortran.a
+target/link-all-languages: target/main.o target/release/libhello_rust.a target/release/libhello_cpp.a target/release/libhello_d.a target/release/libhello_c.a target/release/libhello_zig.a target/release/libhello_fortran.a
 	$(CC) -o $@ $^ $(LDFLAGS) -lgfortran -lphobos2 -lstdc++
 
-target/debug/libhello_rust.a: src/lib.rs Cargo.toml
-	cargo build --target-dir target
+target/release/libhello_rust.a: src/lib.rs Cargo.toml
+	cargo build --release --target-dir target
 
-target/debug/libhello_cpp.a: src/lib.cpp
-	$(CXX) -c $^ -o target/debug/libhello_cpp.o
-	$(AR) rcs $@ target/debug/libhello_cpp.o
+target/release/libhello_cpp.a: src/lib.cpp
+	$(CXX) -c $^ -o target/release/libhello_cpp.o
+	$(AR) rcs $@ target/release/libhello_cpp.o
 
-target/debug/libhello_c.a: src/lib.c
-	$(CC) -c $^ -o target/debug/libhello_c.o
-	$(AR) rcs $@ target/debug/libhello_c.o
+target/release/libhello_c.a: src/lib.c
+	$(CC) -c $^ -o target/release/libhello_c.o
+	$(AR) rcs $@ target/release/libhello_c.o
 
-target/debug/libhello_zig.a: src/lib.zig
-	zig build-lib $^ --output-dir target/debug --name hello_zig $(ZIGFLAGS)
+target/release/libhello_zig.a: src/lib.zig
+	zig build-lib $^ --output-dir target/release --name hello_zig $(ZIGFLAGS)
 
-target/debug/libhello_fortran.a: src/lib.f95
-	gfortran -ffree-form -c $^ -o target/debug/libhello_fortran.o
-	$(AR) rcs $@ target/debug/libhello_fortran.o
+target/release/libhello_fortran.a: src/lib.f95
+	gfortran -ffree-form -c $^ -o target/release/libhello_fortran.o
+	$(AR) rcs $@ target/release/libhello_fortran.o
 
-target/debug/libhello_d.a: src/lib.d
-	dmd -c $^ -of=target/debug/libhello_d.o
-	$(AR) rcs $@ target/debug/libhello_d.o
+target/release/libhello_d.a: src/lib.d
+	dmd -c $^ -of=target/release/libhello_d.o
+	$(AR) rcs $@ target/release/libhello_d.o
 
-target/main.o: src/main.c | target/debug
+target/main.o: src/main.c | target/release
 	$(CC) -o $@ -c $<
 
 .PHONY:
