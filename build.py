@@ -222,15 +222,3 @@ def link_all_the_languages(output, deps, partial_deps):
 job = seq_join(sh("mkdir -p target/debug"),
                link_all_the_languages())
 job()
-
-
-
-@dependent("Hello!")
-def heck():
-    return 10
-
-@output("target/link-all-languages")
-@partial_dependent([rust_a, cpp_a, c_a, zig_a, fortran_a])
-@dependent(main_o)
-def link_all_the_languages(deps, partial_deps, output):
-    return CC("-o target/link-all-languages {} -Wl,--gc-sections -lpthread -ldl -fuse-ld=lld -lgfortran -lstdc++".format(" ".join(x.out for x in deps + partial_deps)))
