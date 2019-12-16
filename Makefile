@@ -22,7 +22,7 @@ target/debug:
 	mkdir -p $@
 
 target/link-all-languages: target/main.o target/debug/libhello_rust.a target/debug/libhello_cpp.a target/debug/libhello_d.a target/debug/libhello_c.a target/debug/libhello_zig.a target/debug/libhello_fortran.a
-	$(CC) -o $@ $^ $(LDFLAGS) -lgdruntime -lgfortran -lgphobos -lstdc++
+	$(CC) -o $@ $^ $(LDFLAGS) -ldruntime -lgfortran -lphobos2 -lstdc++
 
 target/debug/libhello_rust.a: src/lib.rs Cargo.toml
 	cargo build --target-dir target
@@ -43,7 +43,7 @@ target/debug/libhello_fortran.a: src/lib.f95
 	$(AR) rcs $@ target/debug/libhello_fortran.o
 
 target/debug/libhello_d.a: src/lib.d
-	gdc -c $^ -o target/debug/libhello_d.o
+	dmd -c $^ -of=target/debug/libhello_d.o
 	$(AR) rcs $@ target/debug/libhello_d.o
 
 target/main.o: src/main.c | target/debug
