@@ -11,7 +11,7 @@ endif
 
 ZIGFLAGS:=-fPIC --bundle-compiler-rt
 
-LANGUAGES:=c cpp d fortran rust zig
+LANGUAGES:=c cpp d fortran rust zig carp
 
 OBJECTS:=$(addsuffix .a, $(addprefix target/release/libhello_, $(LANGUAGES)))
 
@@ -27,7 +27,7 @@ run: target/link-all-languages
 	@target/link-all-languages
 
 target/link-all-languages: target/main.o $(OBJECTS)
-	$(CC) -Os -march=native -o $@ $^ $(LDFLAGS) -lgfortran -lphobos2 -lstdc++
+	$(CC) -Os -march=native -o $@ $^ $(LDFLAGS) -lgfortran -lphobos2 -lstdc++ -lm
 
 target/main.o: src/main.c | target/release
 	$(CC) -Os -march=native -o $@ -c $<
@@ -56,3 +56,9 @@ target/release/libhello_rust.a: src/lib.rs Cargo.toml
 
 target/release/libhello_zig.a: src/lib.zig
 	zig build-lib $^ --output-dir target/release --name hello_zig $(ZIGFLAGS)
+
+target/release/libhello_carp.a: src/lib.carp
+	carp -b --generate-only src/lib.carp
+	$(CC) -I $(CARP_DIR)/core -c out/main.c -o target/release/libhello_carp.o
+	rm -r out
+	$(AR) rcs target/release/libhello_carp.a target/release/libhello_carp.o
