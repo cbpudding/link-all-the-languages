@@ -1,0 +1,2 @@
+(defn hello_carp []
+  (println* "Hello from Carp!"))
