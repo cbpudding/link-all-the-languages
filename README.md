@@ -40,6 +40,7 @@ cd link-all-the-languages
  - [C++](https://isocpp.org/)
  - [Carp](https://github.com/carp-lang/Carp)
  - [D (DMD)](https://dlang.org/)
+ - [Nim](https://nim-lang.org/)
  - [Rust (Cargo)](https://www.rust-lang.org/)
  - [Fortran (GNU)](https://gcc.gnu.org/fortran/)
  - [Zig](https://ziglang.org/)
