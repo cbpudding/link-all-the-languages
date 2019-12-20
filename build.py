@@ -126,22 +126,10 @@ def D(args):
 
 #### Targets Section ####
 
-@output("target/release/libhello_rust.a")
-@dependent(["src/lib.rs", "Cargo.toml", "Cargo.lock"])
-def rust_a(**info):
-    return seq_join(sh("cargo build --release --target-dir target"))
-
-@output("target/release/libhello_cpp.a")
-@dependent("src/lib.cpp")
-def cpp_a(**info):
-    return seq_join(CXX("-c src/lib.cpp -o target/release/libhello_cpp.o"),
-                AR("rcs target/release/libhello_cpp.a target/release/libhello_cpp.o"))
-
-@output("target/release/libhello_d.a")
-@dependent("src/lib.d")
-def d_a(**info):
-    return seq_join(D("-c src/lib.d -oftarget/release/libhello_d.o"),
-                    AR("rcs target/release/libhello_d.a target/release/libhello_d.o"))
+@output("target/main.o")
+@dependent("src/main.c")
+def main_o(**info):
+    return seq_join(CC("-o target/main.o -c src/main.c"))
 
 @output("target/release/libhello_c.a")
 @dependent("src/lib.c")
@@ -149,16 +137,11 @@ def c_a(**info):
     return seq_join(CC("-c src/lib.c -o target/release/libhello_c.o"),
                 AR("rcs target/release/libhello_c.a target/release/libhello_c.o"))
 
-@output("target/release/libhello_zig.a")
-@dependent("src/lib.zig")
-def zig_a(**info):
-    return seq_join(ZIG("build-lib src/lib.zig --output-dir target/release --name hello_zig -fPIC --bundle-compiler-rt"))
-
-@output("target/release/libhello_fortran.a")
-@dependent("src/lib.f95")
-def fortran_a(**info):
-    return seq_join(FORTRAN("-ffree-form -c src/lib.f95 -o target/release/libhello_fortran.o"),
-                AR("rcs target/release/libhello_fortran.a target/release/libhello_fortran.o"))
+@output("target/release/libhello_cpp.a")
+@dependent("src/lib.cpp")
+def cpp_a(**info):
+    return seq_join(CXX("-c src/lib.cpp -o target/release/libhello_cpp.o"),
+                AR("rcs target/release/libhello_cpp.a target/release/libhello_cpp.o"))
 
 @output("target/release/libhello_carp.a")
 @dependent("src/lib.carp")
@@ -168,11 +151,27 @@ def carp_a(**info):
                     sh("rm -r out"),
                     AR("rcs target/release/libhello_carp.a target/release/libhello_carp.o"))
 
-@output("target/main.o")
-@dependent("src/main.c")
-def main_o(**info):
-    return seq_join(CC("-o target/main.o -c src/main.c"))
+@output("target/release/libhello_d.a")
+@dependent("src/lib.d")
+def d_a(**info):
+    return seq_join(D("-c src/lib.d -oftarget/release/libhello_d.o"),
+                    AR("rcs target/release/libhello_d.a target/release/libhello_d.o"))
 
+@output("target/release/libhello_fortran.a")
+@dependent("src/lib.f95")
+def fortran_a(**info):
+    return seq_join(FORTRAN("-ffree-form -c src/lib.f95 -o target/release/libhello_fortran.o"),
+                AR("rcs target/release/libhello_fortran.a target/release/libhello_fortran.o"))
+
+@output("target/release/libhello_rust.a")
+@dependent(["src/lib.rs", "Cargo.toml", "Cargo.lock"])
+def rust_a(**info):
+    return seq_join(sh("cargo build --release --target-dir target"))
+
+@output("target/release/libhello_zig.a")
+@dependent("src/lib.zig")
+def zig_a(**info):
+    return seq_join(ZIG("build-lib src/lib.zig --output-dir target/release --name hello_zig -fPIC --bundle-compiler-rt"))
 
 def funcs_header_from_names(func_names):
     externs = "\n".join("extern const void {}();".format(name) for name in func_names)
@@ -185,22 +184,22 @@ def funcs_header_from_names(func_names):
 
 def funcs_header_from_funcs(funcs):
     names = {
-        rust_a: 'hello_rust',
+	c_a: 'hello_c',
         cpp_a: 'hello_cpp',
-        c_a: 'hello_c',
-        zig_a: 'hello_zig',
-        fortran_a: 'hello_fortran',
+        carp_a: 'hello_carp',
         d_a: 'hello_d',
-        carp_a: 'hello_carp'
+        fortran_a: 'hello_fortran',
+        rust_a: 'hello_rust',
+        zig_a: 'hello_zig'
     }
     return funcs_header_from_names([names[x] for x in funcs])
 
 def linker_flags_from_funcs(funcs):
     flags = {
         cpp_a: '-lstdc++',
+        carp_a: '-lm',
         d_a: '-lphobos2',
-        fortran_a: '-lgfortran',
-        carp_a: '-lm'
+        fortran_a: '-lgfortran'
     }
     flaglist = []
     for f in funcs:
@@ -214,7 +213,7 @@ def write_funcs_header_with_funcs(funcs):
         funcsfile.write(data)
 
 @output("target/link-all-languages")
-@partial_dependent([c_a, cpp_a, d_a, fortran_a, rust_a, zig_a, carp_a])
+@partial_dependent([c_a, cpp_a, carp_a, d_a, fortran_a, rust_a, zig_a])
 @dependent(main_o)
 def link_all_the_languages(output, deps, partial_deps):
     deps = par_join(*[f() for f in partial_deps])

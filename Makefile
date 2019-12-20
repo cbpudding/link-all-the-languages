@@ -43,6 +43,12 @@ target/release/libhello_cpp.a: src/lib.cpp
 	$(CXX) -Os -march=native -mtune=native -c $^ -o target/release/libhello_cpp.o
 	$(AR) rcs $@ target/release/libhello_cpp.o
 
+target/release/libhello_carp.a: src/lib.carp
+	carp -b --generate-only src/lib.carp
+	$(CC) -I $(CARP_DIR)/core -c out/main.c -o target/release/libhello_carp.o
+	rm -r out
+	$(AR) rcs target/release/libhello_carp.a target/release/libhello_carp.o
+
 target/release/libhello_d.a: src/lib.d
 	dmd -O -release -c $^ -of=target/release/libhello_d.o
 	$(AR) rcs $@ target/release/libhello_d.o
@@ -56,9 +62,3 @@ target/release/libhello_rust.a: src/lib.rs Cargo.toml
 
 target/release/libhello_zig.a: src/lib.zig
 	zig build-lib $^ --output-dir target/release --name hello_zig $(ZIGFLAGS)
-
-target/release/libhello_carp.a: src/lib.carp
-	carp -b --generate-only src/lib.carp
-	$(CC) -I $(CARP_DIR)/core -c out/main.c -o target/release/libhello_carp.o
-	rm -r out
-	$(AR) rcs target/release/libhello_carp.a target/release/libhello_carp.o
