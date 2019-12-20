@@ -11,7 +11,7 @@ endif
 
 ZIGFLAGS:=-fPIC --bundle-compiler-rt
 
-LANGUAGES:=c cpp d fortran rust zig carp
+LANGUAGES:=c cpp d fortran nim rust zig carp
 
 OBJECTS:=$(addsuffix .a, $(addprefix target/release/libhello_, $(LANGUAGES)))
 
@@ -56,6 +56,10 @@ target/release/libhello_d.a: src/lib.d
 target/release/libhello_fortran.a: src/lib.f95
 	gfortran -Os -march=native -mtune=native -ffree-form -c $^ -o target/release/libhello_fortran.o
 	$(AR) rcs $@ target/release/libhello_fortran.o
+
+target/release/libhello_nim.a: src/lib.nim
+	nim compile --noMain --app:staticlib -o:libhello_nim.a src/lib.nim
+	mv libhello_nim.a target/release/libhello_nim.a
 
 target/release/libhello_rust.a: src/lib.rs Cargo.toml
 	cargo build --release --target-dir target

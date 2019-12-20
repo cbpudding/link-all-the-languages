@@ -163,6 +163,12 @@ def fortran_a(**info):
     return seq_join(FORTRAN("-ffree-form -c src/lib.f95 -o target/release/libhello_fortran.o"),
                 AR("rcs target/release/libhello_fortran.a target/release/libhello_fortran.o"))
 
+@output("target/release/libhello_nim.a")
+@dependent("src/lib.nim")
+def nim_a(**info):
+    return seq_join(sh("nim compile --noMain --app:staticlib -o:libhello_nim.a src/lib.nim"),
+                    sh("mv libhello_nim.a target/release/libhello_nim.a"))
+
 @output("target/release/libhello_rust.a")
 @dependent(["src/lib.rs", "Cargo.toml", "Cargo.lock"])
 def rust_a(**info):
@@ -189,6 +195,7 @@ def funcs_header_from_funcs(funcs):
         carp_a: 'hello_carp',
         d_a: 'hello_d',
         fortran_a: 'hello_fortran',
+        nim_a: 'hello_nim',
         rust_a: 'hello_rust',
         zig_a: 'hello_zig'
     }
@@ -213,7 +220,7 @@ def write_funcs_header_with_funcs(funcs):
         funcsfile.write(data)
 
 @output("target/link-all-languages")
-@partial_dependent([c_a, cpp_a, carp_a, d_a, fortran_a, rust_a, zig_a])
+@partial_dependent([c_a, cpp_a, carp_a, d_a, fortran_a, nim_a, rust_a, zig_a])
 @dependent(main_o)
 def link_all_the_languages(output, deps, partial_deps):
     deps = par_join(*[f() for f in partial_deps])
