@@ -14,6 +14,7 @@ we can link them in any order with or without C.
 This project has two build systems:
  - A GNU Makefile
  - A custom Python 3 script
+
 If you choose to use the GNU Makefile, you must install all of the language toolchains (listed below)
 used in this project.
 ```sh
@@ -22,6 +23,8 @@ cd link-all-the-languages
 make run
 ```
 [Note that we plan to deprecate this build method.](https://github.com/cbpudding/link-all-the-languages/issues/13)
+
+
 
 If you choose to use the Python 3 script, you only need to ensure you have the toolchains for the
 languages you want to try on your machine. This method still requires a C toolchain.
