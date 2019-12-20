@@ -184,22 +184,22 @@ def funcs_header_from_names(func_names):
 
 def funcs_header_from_funcs(funcs):
     names = {
-        rust_a: 'hello_rust',
+		c_a: 'hello_c',
         cpp_a: 'hello_cpp',
-        c_a: 'hello_c',
-        zig_a: 'hello_zig',
-        fortran_a: 'hello_fortran',
+        carp_a: 'hello_carp',
         d_a: 'hello_d',
-        carp_a: 'hello_carp'
+        fortran_a: 'hello_fortran',
+        rust_a: 'hello_rust',
+        zig_a: 'hello_zig'
     }
     return funcs_header_from_names([names[x] for x in funcs])
 
 def linker_flags_from_funcs(funcs):
     flags = {
         cpp_a: '-lstdc++',
+        carp_a: '-lm',
         d_a: '-lphobos2',
-        fortran_a: '-lgfortran',
-        carp_a: '-lm'
+        fortran_a: '-lgfortran'
     }
     flaglist = []
     for f in funcs:
@@ -213,7 +213,7 @@ def write_funcs_header_with_funcs(funcs):
         funcsfile.write(data)
 
 @output("target/link-all-languages")
-@partial_dependent([c_a, cpp_a, d_a, fortran_a, rust_a, zig_a, carp_a])
+@partial_dependent([c_a, cpp_a, carp_a, d_a, fortran_a, rust_a, zig_a])
 @dependent(main_o)
 def link_all_the_languages(output, deps, partial_deps):
     deps = par_join(*[f() for f in partial_deps])
