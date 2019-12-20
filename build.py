@@ -184,7 +184,7 @@ def funcs_header_from_names(func_names):
 
 def funcs_header_from_funcs(funcs):
     names = {
-		c_a: 'hello_c',
+	c_a: 'hello_c',
         cpp_a: 'hello_cpp',
         carp_a: 'hello_carp',
         d_a: 'hello_d',
