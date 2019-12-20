@@ -8,7 +8,7 @@ A big bundle of different languages all being invoked from a C program.
 We want to see if we can!
 
 The idea here is that if we can link all these languages into C,
-we can link them in any order without C.
+we can link them in any order with or without C.
 
 ## Getting Started
 This project has two build systems:
