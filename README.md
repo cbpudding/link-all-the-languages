@@ -21,6 +21,7 @@ git clone https://github.com/cbpudding/link-all-the-languages
 cd link-all-the-languages
 make run
 ```
+[Note that we plan to deprecate this build method.](https://github.com/cbpudding/link-all-the-languages/issues/13)
 
 If you choose to use the Python 3 script, you only need to ensure you have the toolchains for the
 languages you want to try on your machine. This method still requires a C toolchain.
