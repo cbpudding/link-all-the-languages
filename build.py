@@ -174,6 +174,13 @@ def nim_a(**info):
 def rust_a(**info):
     return seq_join(sh("cargo build --release --target-dir target"))
 
+@output("target/release/libhello_swift.a")
+@dependent("src/lib.swift")
+def swift_a(**info):
+	return seq_join(sh("swiftc -Osize -static-stdlib -c src/lib.swift -o target/release/libhello_swift.o"),
+	                sh("strip -N main target/release/libhello_swift.o"),
+	                AR("rcs target/release/libhello_swift.a target/release/libhello_swift.o"))
+
 @output("target/release/libhello_zig.a")
 @dependent("src/lib.zig")
 def zig_a(**info):
@@ -189,17 +196,18 @@ def funcs_header_from_names(func_names):
     return externs
 
 def funcs_header_from_funcs(funcs):
-    names = {
-	c_a: 'hello_c',
-        cpp_a: 'hello_cpp',
-        carp_a: 'hello_carp',
-        d_a: 'hello_d',
-        fortran_a: 'hello_fortran',
-        nim_a: 'hello_nim',
-        rust_a: 'hello_rust',
-        zig_a: 'hello_zig'
-    }
-    return funcs_header_from_names([names[x] for x in funcs])
+	names = {
+		c_a: 'hello_c',
+		cpp_a: 'hello_cpp',
+		carp_a: 'hello_carp',
+		d_a: 'hello_d',
+		fortran_a: 'hello_fortran',
+		nim_a: 'hello_nim',
+		rust_a: 'hello_rust',
+		swift_a: 'hello_swift',
+		zig_a: 'hello_zig'
+	}
+	return funcs_header_from_names([names[x] for x in funcs])
 
 def linker_flags_from_funcs(funcs):
     flags = {
@@ -220,7 +228,7 @@ def write_funcs_header_with_funcs(funcs):
         funcsfile.write(data)
 
 @output("target/link-all-languages")
-@partial_dependent([c_a, cpp_a, carp_a, d_a, fortran_a, nim_a, rust_a, zig_a])
+@partial_dependent([c_a, cpp_a, carp_a, d_a, fortran_a, nim_a, rust_a, swift_a, zig_a])
 @dependent(main_o)
 def link_all_the_languages(output, deps, partial_deps):
     deps = par_join(*[f() for f in partial_deps])

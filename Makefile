@@ -11,7 +11,7 @@ endif
 
 ZIGFLAGS:=-fPIC --bundle-compiler-rt
 
-LANGUAGES:=c cpp d fortran nim rust zig carp
+LANGUAGES:=c cpp d fortran nim rust swift zig carp
 
 OBJECTS:=$(addsuffix .a, $(addprefix target/release/libhello_, $(LANGUAGES)))
 
@@ -63,6 +63,11 @@ target/release/libhello_nim.a: src/lib.nim
 
 target/release/libhello_rust.a: src/lib.rs Cargo.toml
 	cargo build --release --target-dir target
+
+target/release/libhello_swift.a: src/lib.swift
+	swiftc -Osize -static-stdlib -c $^ -o target/release/libhello_swift.o
+	strip -N main target/release/libhello_swift.o
+	$(AR) rcs $@ target/release/libhello_swift.o
 
 target/release/libhello_zig.a: src/lib.zig
 	zig build-lib $^ --output-dir target/release --name hello_zig $(ZIGFLAGS)
