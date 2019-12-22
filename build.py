@@ -210,17 +210,18 @@ def funcs_header_from_funcs(funcs):
 	return funcs_header_from_names([names[x] for x in funcs])
 
 def linker_flags_from_funcs(funcs):
-    flags = {
-        cpp_a: '-lstdc++',
-        carp_a: '-lm',
-        d_a: '-lphobos2',
-        fortran_a: '-lgfortran'
-    }
-    flaglist = []
-    for f in funcs:
-        if f in flags:
-            flaglist.append(f)
-    return " ".join(flags[x] for x in flaglist)
+	flags = {
+		cpp_a: '-lstdc++',
+		carp_a: '-lm',
+		d_a: '-lphobos2',
+		fortran_a: '-lgfortran',
+		swift_a: '-L/lib64/swift/linux/x86_64/ -lswiftCore'
+	}
+	flaglist = []
+	for f in funcs:
+		if f in flags:
+			flaglist.append(f)
+	return " ".join(flags[x] for x in flaglist)
 
 def write_funcs_header_with_funcs(funcs):
     data = funcs_header_from_funcs(funcs)
