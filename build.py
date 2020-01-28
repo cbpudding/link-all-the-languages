@@ -151,6 +151,12 @@ def carp_a(**info):
                     sh("rm -r out"),
                     AR("rcs target/release/libhello_carp.a target/release/libhello_carp.o"))
 
+@output("target/release/libhello_crystal.a")
+@dependent("src/lib.cr")
+def crystal_a(**info):
+	return seq_join(sh("crystal build --emit obj -o target/release/libhello_crystal.o src/lib.cr"),
+	                AR("rcs target/release/libhello_crystal.a target/release/libhello_crystal.o"))
+
 @output("target/release/libhello_d.a")
 @dependent("src/lib.d")
 def d_a(**info):
@@ -193,6 +199,7 @@ def funcs_header_from_funcs(funcs):
 	c_a: 'hello_c',
         cpp_a: 'hello_cpp',
         carp_a: 'hello_carp',
+		crystal_a: 'hello_crystal',
         d_a: 'hello_d',
         fortran_a: 'hello_fortran',
         nim_a: 'hello_nim',
@@ -220,7 +227,7 @@ def write_funcs_header_with_funcs(funcs):
         funcsfile.write(data)
 
 @output("target/link-all-languages")
-@partial_dependent([c_a, cpp_a, carp_a, d_a, fortran_a, nim_a, rust_a, zig_a])
+@partial_dependent([c_a, cpp_a, crystal_a, carp_a, d_a, fortran_a, nim_a, rust_a, zig_a])
 @dependent(main_o)
 def link_all_the_languages(output, deps, partial_deps):
     deps = par_join(*[f() for f in partial_deps])

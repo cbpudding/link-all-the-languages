@@ -11,7 +11,7 @@ endif
 
 ZIGFLAGS:=-fPIC --bundle-compiler-rt
 
-LANGUAGES:=c cpp d fortran nim rust zig carp
+LANGUAGES:=c cpp crystal d fortran nim rust zig carp
 
 OBJECTS:=$(addsuffix .a, $(addprefix target/release/libhello_, $(LANGUAGES)))
 
@@ -48,6 +48,10 @@ target/release/libhello_carp.a: src/lib.carp
 	$(CC) -I $(CARP_DIR)/core -c out/main.c -o target/release/libhello_carp.o
 	rm -r out
 	$(AR) rcs target/release/libhello_carp.a target/release/libhello_carp.o
+
+target/release/libhello_crystal.a: src/lib.cr
+	crystal build --emit obj -o target/release/libhello_crystal.o src/lib.cr
+	$(AR) rcs target/release/libhello_crystal.a target/release/libhello_crystal.o
 
 target/release/libhello_d.a: src/lib.d
 	dmd -O -release -c $^ -of=target/release/libhello_d.o
