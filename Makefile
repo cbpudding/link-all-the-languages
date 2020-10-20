@@ -11,7 +11,7 @@ endif
 
 ZIGFLAGS:=-fPIC --bundle-compiler-rt
 
-LANGUAGES:=c cpp d fortran nim rust zig carp
+LANGUAGES:=c cpp d fortran nim rust carp
 
 OBJECTS:=$(addsuffix .a, $(addprefix target/release/libhello_, $(LANGUAGES)))
 
