@@ -12,3 +12,10 @@ cpp:
   output: hello.cpp.o
   requires: cpp
   root: /src
+d:
+  build: dmd -c -of=hello.d.o hello.d
+  entry: hello_d
+  library: phobos2
+  output: hello.d.o
+  requires: dmd
+  root: /src
