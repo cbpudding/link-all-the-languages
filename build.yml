@@ -6,7 +6,7 @@ c:
   requires: cc
   root: /src
 cpp:
-  build: cpp -c -o hello.cpp.o hello.cpp
+  build: c++ -c -o hello.cpp.o hello.cpp
   entry: hello_cpp
   library: stdc++
   output: hello.cpp.o
