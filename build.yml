@@ -12,10 +12,3 @@ lua:
   output: hello.lua.o
   requires: cc
   root: /src/lua
-cpp:
-  build: c++ -c -o hello.cpp.o hello.cpp
-  entry: hello_cpp
-  library: stdc++
-  output: hello.cpp.o
-  requires: cpp
-  root: /src
