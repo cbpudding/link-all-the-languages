@@ -5,3 +5,10 @@ c:
   output: hello.c.o
   requires: cc
   root: /src
+lua:
+  build: cc -c -o wrapper.o wrapper.c
+  entry: hello_lua
+  library: lua
+  output: hello.lua.o
+  requires: cc
+  root: /src/lua
