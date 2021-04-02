@@ -25,6 +25,12 @@ def which(program):
     
     return None
 
+def check_requirements(reqs):
+    for r in reqs.split():
+        if which(r) == None:
+            return False
+    return True
+
 # Step 1: Figure out what we can and can't compile on this system
 
 entry_points = []
@@ -33,7 +39,7 @@ libraries = set()
 objects = []
 
 for lang, instr in build.items():
-    if which(instr["requires"]) != None:
+    if check_requirements(instr["requires"]):
         commands.append((instr["root"], instr["build"]))
         entry_points.append(instr["entry"])
         for lib in instr["library"].split():
@@ -45,9 +51,9 @@ for lang, instr in build.items():
 header = open("src/langs.h", "w")
 
 for entry in entry_points:
-    header.write("extern const void " + entry + "();\n")
+    header.write("extern const void " + entry + "();" + os.linesep)
 
-header.write("\nconst void (*ENTRY_POINTS[])() = {" + ", ".join(entry_points) + "};\n")
+header.write(os.linesep + "const void (*ENTRY_POINTS[])() = {" + ", ".join(entry_points) + "};" + os.linesep)
 
 header.close()
 
