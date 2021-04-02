@@ -5,13 +5,6 @@ c:
   output: hello.c.o
   requires: cc
   root: /src
-lua:
-  build: cc -c -o wrapper.o wrapper.c
-  entry: hello_lua
-  library: lua
-  output: hello.lua.o
-  requires: cc
-  root: /src/lua
 cpp:
   build: c++ -c -o hello.cpp.o hello.cpp
   entry: hello_cpp
@@ -19,3 +12,10 @@ cpp:
   output: hello.cpp.o
   requires: cpp
   root: /src
+lua:
+  build: cc -c -o wrapper.o wrapper.c
+  entry: hello_lua
+  library: lua
+  output: hello.lua.o
+  requires: cc luac
+  root: /src/lua
