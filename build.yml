@@ -5,3 +5,10 @@ c:
   output: hello.c.o
   requires: cc
   root: /src
+cpp:
+  build: c++ -c -o hello.cpp.o hello.cpp
+  entry: hello_cpp
+  library: stdc++
+  output: hello.cpp.o
+  requires: cpp
+  root: /src
