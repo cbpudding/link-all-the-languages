@@ -1,0 +1,7 @@
+c:
+  build: cc -c -o hello.c.o hello.c
+  entry: hello_c
+  library: c
+  output: hello.c.o
+  requires: cc
+  root: /src
