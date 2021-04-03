@@ -16,10 +16,11 @@ cpp:
   root: /src
 lua:
   build:
+  - xxd -i hello.lua luascript.h
   - cc -c -o wrapper.o wrapper.c
-  entry: hello_lua
+  entry: call_hello_lua
   library: lua
-  output: hello.lua.o
+  output: lua/wrapper.o
   requires: cc luac
   root: /src/lua
 d:
