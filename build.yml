@@ -31,6 +31,16 @@ go:
   output: hello.go.a
   requires: go ranlib
   root: /src
+lua:
+  build:
+  - luac -o hello.luac hello.lua
+  - xxd -i hello.luac hello.luac.h
+  - cc -c -o wrapper.o wrapper.c
+  entry: hello_lua
+  library: lua
+  output: lua/wrapper.o
+  requires: cc luac xxd
+  root: /src/lua
 rust:
   build:
   - cargo build
