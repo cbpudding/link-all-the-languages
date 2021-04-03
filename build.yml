@@ -1,14 +1,24 @@
 c:
-  build: cc -c -o hello.c.o hello.c
+  build:
+  - cc -c -o hello.c.o hello.c
   entry: hello_c
   library: c
   output: hello.c.o
   requires: cc
   root: /src
 cpp:
-  build: c++ -c -o hello.cpp.o hello.cpp
+  build:
+  - c++ -c -o hello.cpp.o hello.cpp
   entry: hello_cpp
   library: stdc++
   output: hello.cpp.o
   requires: cpp
   root: /src
+rust:
+  build:
+  - cargo build
+  entry: hello_rust
+  library: dl pthread
+  output: rust/target/debug/libhello.a
+  requires: cargo
+  root: /src/rust
