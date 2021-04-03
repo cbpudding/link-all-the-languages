@@ -3,3 +3,4 @@
 /src/*.o
 /src/rust/Cargo.lock
 /src/rust/target
+/_obj

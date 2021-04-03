@@ -22,6 +22,15 @@ d:
   output: hello.d.o
   requires: dmd
   root: /src
+go:
+  build:
+  - go build -buildmode=c-archive -o hello.go.a hello.go
+  - ranlib hello.go.a
+  entry: hello_go
+  library: ""
+  output: hello.go.a
+  requires: go ranlib
+  root: /src
 rust:
   build:
   - cargo build
