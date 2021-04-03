@@ -1,7 +1,8 @@
 /hello
-/src/langs.h
-/src/*.a
-/src/*.o
+/src/**/*.a
+/src/**/*.h
+/src/**/*.o
+/src/lua/hello.luac
 /src/rust/Cargo.lock
 /src/rust/target
 /_obj
