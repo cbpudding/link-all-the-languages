@@ -1,0 +1,10 @@
+[package]
+name = "link-all-the-languages"
+version = "1.0.0"
+authors = ["Alexander Hill <CodeBreadpudding@gmail.com>"]
+edition = "2018"
+license = "Unlicense"
+
+[lib]
+name = "hello"
+crate-type = ["staticlib"]

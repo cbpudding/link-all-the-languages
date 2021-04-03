@@ -1,3 +1,5 @@
 /hello
 /src/langs.h
 /src/*.o
+/src/rust/Cargo.lock
+/src/rust/target
