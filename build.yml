@@ -1,21 +1,49 @@
 c:
-  build: cc -c -o hello.c.o hello.c
+  build:
+  - cc -c -o hello.c.o hello.c
   entry: hello_c
   library: c
   output: hello.c.o
   requires: cc
   root: /src
 cpp:
-  build: c++ -c -o hello.cpp.o hello.cpp
+  build:
+  - c++ -c -o hello.cpp.o hello.cpp
   entry: hello_cpp
   library: stdc++
   output: hello.cpp.o
   requires: cpp
   root: /src
 lua:
-  build: cc -c -o wrapper.o wrapper.c
+  build:
+  - cc -c -o wrapper.o wrapper.c
   entry: hello_lua
   library: lua
   output: hello.lua.o
   requires: cc luac
   root: /src/lua
+d:
+  build: 
+  - dmd -c -of=hello.d.o hello.d
+  entry: hello_d
+  library: phobos2
+  output: hello.d.o
+  requires: dmd
+  root: /src
+go:
+  build:
+  - go build -buildmode=c-archive -o hello.go.a hello.go
+  - ranlib hello.go.a
+  entry: hello_go
+  library: ""
+  output: hello.go.a
+  requires: go ranlib
+  root: /src
+rust:
+  build:
+  - cargo build
+  entry: hello_rust
+  library: dl pthread
+  output: rust/target/debug/libhello.a
+  requires: cargo
+  root: /src/rust

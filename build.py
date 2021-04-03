@@ -61,11 +61,12 @@ header.close()
 
 base = os.getcwd()
 
-for (root, cmd) in commands:
+for (root, cmds) in commands:
     os.chdir(base + root)
-    print(cmd)
-    if os.system(cmd) != 0:
-        exit(1)
+    for cmd in cmds:
+        print(cmd)
+        if os.system(cmd) != 0:
+            exit(1)
 
 # Step 4: Wrap everything up as one executable
 
