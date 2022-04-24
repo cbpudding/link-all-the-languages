@@ -15,13 +15,13 @@ Most programming languages provide a foreign function interface to the C languag
 - D
 - Fortran
 - Go
+- Java
 - Lua
 - Rust
 
 ### In-progress
 
 - Crystal
-- Java
 - Pascal
 
 ### To Do

@@ -42,11 +42,12 @@ go:
 java:
   build:
   - javac Hello.java
-  - cc -I/usr/lib/jvm/java-18-openjdk/include -o wrapper.o wrapper.c
+  - xxd -i Hello.class.h Hello.class
+  - cc -c -I/usr/lib/jvm/default/include -I/usr/lib/jvm/default/include/linux -o wrapper.o wrapper.c
   entry: hello_java
-  library: ""
+  library: jvm
   output: java/wrapper.o
-  requires: cc javac
+  requires: cc javac xxd
   root: /src/java
 lua:
   build:
