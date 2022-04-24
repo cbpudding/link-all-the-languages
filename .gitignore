@@ -2,6 +2,7 @@
 /src/**/*.a
 /src/**/*.h
 /src/**/*.o
+/src/java/Hello.class
 /src/lua/hello.luac
 /src/rust/Cargo.lock
 /src/rust/target

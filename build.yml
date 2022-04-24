@@ -39,6 +39,16 @@ go:
   output: hello.go.a
   requires: go ranlib
   root: /src
+java:
+  build:
+  - javac Hello.java
+  - xxd -i Hello.class.h Hello.class
+  - cc -c -I/usr/lib/jvm/default/include -I/usr/lib/jvm/default/include/linux -o wrapper.o wrapper.c
+  entry: hello_java
+  library: jvm
+  output: java/wrapper.o
+  requires: cc javac xxd
+  root: /src/java
 lua:
   build:
   - luac -o hello.luac hello.lua
