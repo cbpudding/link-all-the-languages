@@ -39,6 +39,15 @@ go:
   output: hello.go.a
   requires: go ranlib
   root: /src
+java:
+  build:
+  - javac Hello.java
+  - cc -I/usr/lib/jvm/java-18-openjdk/include -o wrapper.o wrapper.c
+  entry: hello_java
+  library: ""
+  output: java/wrapper.o
+  requires: cc javac
+  root: /src/java
 lua:
   build:
   - luac -o hello.luac hello.lua
