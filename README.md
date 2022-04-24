@@ -13,6 +13,7 @@ Most programming languages provide a foreign function interface to the C languag
 - C
 - C++
 - D
+- Fortran
 - Go
 - Lua
 - Rust
@@ -20,7 +21,6 @@ Most programming languages provide a foreign function interface to the C languag
 ### In-progress
 
 - Crystal
-- Fortran
 - Pascal
 
 ### To Do

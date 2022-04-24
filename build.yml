@@ -22,6 +22,14 @@ d:
   output: hello.d.o
   requires: dmd
   root: /src
+fortran:
+  build:
+  - gfortran -c -o hello.f90.o hello.f90
+  entry: hello_fortran
+  library: gfortran
+  output: hello.f90.o
+  requires: gfortran
+  root: /src
 go:
   build:
   - go build -buildmode=c-archive -o hello.go.a hello.go
