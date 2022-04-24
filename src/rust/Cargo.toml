@@ -2,7 +2,7 @@
 name = "link-all-the-languages"
 version = "1.0.0"
 authors = ["Alexander Hill <CodeBreadpudding@gmail.com>"]
-edition = "2018"
+edition = "2021"
 license = "Unlicense"
 
 [lib]
