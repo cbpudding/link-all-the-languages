@@ -2,7 +2,6 @@
 # Build script for link-all-the-languages created by Alexander Hill(Breadpudding)
 
 import os
-import sys
 import yaml
 
 build = yaml.safe_load(open("build.yml", "r"))

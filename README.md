@@ -19,23 +19,22 @@ Most programming languages provide a foreign function interface to the C languag
 
 ### In-progress
 
-- C#
-- Common Lisp
 - Crystal
+- Fortran
 - Pascal
-- Python
 
 ### To Do
 
 - Assembly
+- C#
 - Carp
 - COBOL
+- Common Lisp
 - Dart
 - Elixir
 - Erlang
 - F#
 - Forth
-- Fortran
 - FreeBasic
 - Futhark
 - Haskell
@@ -47,6 +46,7 @@ Most programming languages provide a foreign function interface to the C languag
 - Kotlin
 - Nim
 - OCaml
+- Python
 - R
 - Ruby
 - Scheme
@@ -54,6 +54,7 @@ Most programming languages provide a foreign function interface to the C languag
 - Swift
 - Tcl
 - Typescript
+- Zig
 
 ### Impossible
 
