@@ -22,7 +22,6 @@ Most programming languages provide a foreign function interface to the C languag
 ### In-progress
 
 - Crystal
-- Java
 - Pascal
 
 ### To Do
