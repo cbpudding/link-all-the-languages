@@ -24,13 +24,23 @@ Most programming languages provide a foreign function interface to the C languag
 - Crystal
 - Pascal
 
-### To Do
+### To-do
 
+- Ada
+- Agda
+- ALGOL
 - Assembly
+- Ballerina
+- BCPL
+- Bosque
 - C#
+- Caml
 - Carp
+- Clojure
 - COBOL
+- CoffeeScript
 - Common Lisp
+- Coq
 - Dart
 - Elixir
 - Erlang
@@ -39,18 +49,27 @@ Most programming languages provide a foreign function interface to the C languag
 - FreeBasic
 - Futhark
 - Haskell
+- Haxe
 - Idris
 - Janet
 - Javascript
 - Julia
 - Kotlin
+- MATLAB
+- Mercury
 - Nim
 - OCaml
+- Oz
+- Perl
 - Python
 - R
+- Racket
+- Raku
+- Rexx
 - Ruby
 - Scheme
 - Smalltalk
+- Squirrel
 - Swift
 - Tcl
 - Typescript
