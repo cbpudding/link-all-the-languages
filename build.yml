@@ -42,7 +42,7 @@ go:
 java:
   build:
   - javac Hello.java
-  - xxd -i Hello.class.h Hello.class
+  - xxd -i Hello.class Hello.class.h
   - cc -c -I/usr/lib/jvm/default/include -I/usr/lib/jvm/default/include/linux -o wrapper.o wrapper.c
   entry: hello_java
   library: jvm
