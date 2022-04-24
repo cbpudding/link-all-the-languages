@@ -21,7 +21,6 @@ Most programming languages provide a foreign function interface to the C languag
 
 ### In-progress
 
-- Crystal
 - Pascal
 - PHP
 
@@ -78,7 +77,7 @@ Most programming languages provide a foreign function interface to the C languag
 
 ### Impossible
 
-*Haven't found anything yet*
+- Crystal(crystal-lang/crystal#921)
 
 ## Rules for including languages
 
