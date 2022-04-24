@@ -23,6 +23,7 @@ Most programming languages provide a foreign function interface to the C languag
 
 - Crystal
 - Pascal
+- PHP
 
 ### To-do
 
