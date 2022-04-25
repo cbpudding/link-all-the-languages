@@ -68,6 +68,15 @@ python:
   output: python/wrapper.o
   requires: cc xxd
   root: /src/python
+ruby:
+  build:
+  - xxd -i hello.rb hello.rb.h
+  - cc -c -o wrapper.o wrapper.c
+  entry: hello_ruby
+  library: ""
+  output: ruby/wrapper.o
+  requires: cc xxd
+  root: /src/ruby
 rust:
   build:
   - cargo build
