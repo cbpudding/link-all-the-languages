@@ -1,3 +1,11 @@
+assembly:
+  build:
+  - sh -c "as -o hello.as.o '$(cc -dumpmachine).s'"
+  entry: hello_assembly
+  library: ""
+  output: assembly/hello.as.o
+  requires: as cc sh
+  root: /src/assembly
 c:
   build:
   - cc -c -o hello.c.o hello.c
