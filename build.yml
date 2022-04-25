@@ -59,6 +59,15 @@ lua:
   output: lua/wrapper.o
   requires: cc luac xxd
   root: /src/lua
+python:
+  build:
+  - xxd -i hello.py hello.py.h
+  - cc -c -o wrapper.o wrapper.c
+  entry: hello_python
+  library: python3.10
+  output: python/wrapper.o
+  requires: cc xxd
+  root: /src/python
 rust:
   build:
   - cargo build
