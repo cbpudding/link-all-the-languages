@@ -10,6 +10,7 @@ Most programming languages provide a foreign function interface to the C languag
 
 ### Implemented
 
+- Assembly
 - C
 - C++
 - D
@@ -22,7 +23,6 @@ Most programming languages provide a foreign function interface to the C languag
 
 ### In-progress
 
-- Assembly
 - Javascript
 - Kotlin
 - Pascal
