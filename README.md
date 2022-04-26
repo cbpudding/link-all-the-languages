@@ -27,6 +27,7 @@ Most programming languages provide a foreign function interface to the C languag
 - Pascal
 - Perl
 - PHP
+- Rexx
 - Ruby
 - Smalltalk
 
@@ -67,7 +68,6 @@ Most programming languages provide a foreign function interface to the C languag
 - R
 - Racket
 - Raku
-- Rexx
 - Scheme
 - Squirrel
 - Swift
