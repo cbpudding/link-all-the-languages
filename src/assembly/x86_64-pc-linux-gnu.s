@@ -1,5 +1,5 @@
     .data
-hello: .ascii "Hello from Assembly!"
+hello: .ascii "Hello from Assembly!\n"
 hello_len = . - hello
     .text
     .globl hello_assembly
@@ -9,7 +9,7 @@ hello_assembly:
     mov %rsp, %rbp
     mov $1, %rax
     mov $1, %rdi
-    lea .cursed_pie, %rsi
+    lea hello(%rip), %rsi
     mov $hello_len, %rdx
     syscall
     pop %rbp
