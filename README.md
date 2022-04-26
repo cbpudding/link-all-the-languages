@@ -24,6 +24,7 @@ Most programming languages provide a foreign function interface to the C languag
 
 - Assembly
 - Javascript
+- Kotlin
 - Pascal
 - Perl
 - PHP
@@ -59,7 +60,6 @@ Most programming languages provide a foreign function interface to the C languag
 - Idris
 - Janet
 - Julia
-- Kotlin
 - MATLAB
 - Mercury
 - Nim
