@@ -24,6 +24,7 @@ Most programming languages provide a foreign function interface to the C languag
 ### In-progress
 
 - C#
+- COBOL
 - Javascript
 - Kotlin
 - Pascal
@@ -44,7 +45,6 @@ Most programming languages provide a foreign function interface to the C languag
 - Caml
 - Carp
 - Clojure
-- COBOL
 - CoffeeScript
 - Common Lisp
 - Coq
