@@ -24,9 +24,12 @@ def which(program):
     
     return None
 
-def check_requirements(reqs):
+def check_requirements(reqs, incs):
     for r in reqs.split():
         if which(r) == None:
+            return False
+    for i in incs.split():
+        if False: # TODO: Check the library search path for the header files
             return False
     return True
 
@@ -38,7 +41,7 @@ libraries = set()
 objects = []
 
 for lang, instr in build.items():
-    if check_requirements(instr["requires"]):
+    if check_requirements(instr["requires"], instr["includes"]):
         commands.append((instr["root"], instr["build"]))
         entry_points.append(instr["entry"])
         for lib in instr["library"].split():
