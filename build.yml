@@ -1,7 +1,17 @@
+assembly:
+  build:
+  - sh -c "as -o hello.as.o '$(cc -dumpmachine).s'"
+  entry: hello_assembly
+  includes: ""
+  library: ""
+  output: assembly/hello.as.o
+  requires: as cc sh
+  root: /src/assembly
 c:
   build:
   - cc -c -o hello.c.o hello.c
   entry: hello_c
+  includes: ""
   library: c
   output: hello.c.o
   requires: cc
@@ -10,6 +20,7 @@ cpp:
   build:
   - c++ -c -o hello.cpp.o hello.cpp
   entry: hello_cpp
+  includes: ""
   library: stdc++
   output: hello.cpp.o
   requires: cpp
@@ -18,6 +29,7 @@ d:
   build: 
   - dmd -c -of=hello.d.o hello.d
   entry: hello_d
+  includes: ""
   library: phobos2
   output: hello.d.o
   requires: dmd
@@ -26,6 +38,7 @@ fortran:
   build:
   - gfortran -c -o hello.f90.o hello.f90
   entry: hello_fortran
+  includes: ""
   library: gfortran
   output: hello.f90.o
   requires: gfortran
@@ -35,6 +48,7 @@ go:
   - go build -buildmode=c-archive -o hello.go.a hello.go
   - ranlib hello.go.a
   entry: hello_go
+  includes: ""
   library: ""
   output: hello.go.a
   requires: go ranlib
@@ -45,6 +59,7 @@ java:
   - xxd -i Hello.class Hello.class.h
   - cc -c -I/usr/lib/jvm/default/include -I/usr/lib/jvm/default/include/linux -o wrapper.o wrapper.c
   entry: hello_java
+  includes: jni.h
   library: jvm
   output: java/wrapper.o
   requires: cc javac xxd
@@ -55,6 +70,7 @@ lua:
   - xxd -i hello.luac hello.luac.h
   - cc -c -o wrapper.o wrapper.c
   entry: hello_lua
+  includes: lua.h lauxlib.h lualib.h
   library: lua
   output: lua/wrapper.o
   requires: cc luac xxd
@@ -64,6 +80,7 @@ python:
   - xxd -i hello.py hello.py.h
   - cc -c -o wrapper.o wrapper.c
   entry: hello_python
+  includes: python3.10/Python.h
   library: python3.10
   output: python/wrapper.o
   requires: cc xxd
@@ -81,6 +98,7 @@ rust:
   build:
   - cargo build
   entry: hello_rust
+  includes: ""
   library: dl pthread
   output: rust/target/debug/libhello.a
   requires: cargo
