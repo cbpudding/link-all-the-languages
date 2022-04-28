@@ -18,6 +18,7 @@ Most programming languages provide a foreign function interface to the C languag
 - Java
 - Lua
 - Python
+- Ruby
 - Rust
 
 ### In-progress
@@ -27,7 +28,6 @@ Most programming languages provide a foreign function interface to the C languag
 - Pascal
 - Perl
 - PHP
-- Ruby
 - Smalltalk
 
 ### To-do

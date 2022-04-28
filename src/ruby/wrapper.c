@@ -11,7 +11,7 @@ void hello_ruby() {
     buffer[hello_rb_len] = 0;
     ruby_setup();
     rb_eval_string_protect(buffer, &state);
-    rb_funcall(rb_vm_top_self(), rb_intern("hello_ruby"), 0, NULL);
+    rb_funcall(rb_str_new_cstr(""), rb_intern("hello_ruby"), 0, NULL);
     ruby_finalize();
     free(buffer);
 }
