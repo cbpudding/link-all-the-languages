@@ -90,6 +90,7 @@ ruby:
   - xxd -i hello.rb hello.rb.h
   - cc -c -I/usr/include/ruby-3.0.0 -I/usr/include/ruby-3.0.0/x86_64-linux -o wrapper.o wrapper.c
   entry: hello_ruby
+  includes: ruby-3.0.0/ruby.h
   library: m ruby
   output: ruby/wrapper.o
   requires: cc xxd
