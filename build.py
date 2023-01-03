@@ -39,8 +39,14 @@ entry_points = []
 commands = []
 libraries = set()
 objects = []
+runtimes = set()
 
-for lang, instr in build.items():
+# TODO: Check to see which runtimes we have available and check their
+#       requirements. If the requirements are met add it to the set
+#       so languages can be filtered based on what we have available. ~Alex
+
+for lang, instr in build["languages"].items():
+    # TODO: Ignore the language if the runtime required isn't listed above
     if check_requirements(instr["requires"], instr["includes"]):
         commands.append((instr["root"], instr["build"]))
         entry_points.append(instr["entry"])
