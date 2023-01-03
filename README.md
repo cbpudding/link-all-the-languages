@@ -24,15 +24,7 @@ Most programming languages provide a foreign function interface to the C languag
 
 ### In-progress
 
-- C#
-- COBOL
-- Javascript
-- Kotlin
-- Pascal
-- Perl
-- PHP
-- Rexx
-- Smalltalk
+*Nothing yet*
 
 ### To-do
 
@@ -42,9 +34,11 @@ Most programming languages provide a foreign function interface to the C languag
 - Ballerina
 - BCPL
 - Bosque
+- C#
 - Caml
 - Carp
 - Clojure
+- COBOL
 - CoffeeScript
 - Common Lisp
 - Coq
@@ -59,16 +53,23 @@ Most programming languages provide a foreign function interface to the C languag
 - Haxe
 - Idris
 - Janet
+- Javascript
 - Julia
+- Kotlin
 - MATLAB
 - Mercury
 - Nim
 - OCaml
 - Oz
+- Pascal
+- Perl
+- PHP
 - R
 - Racket
 - Raku
+- Rexx
 - Scheme
+- Smalltalk
 - Squirrel
 - Swift
 - Tcl
