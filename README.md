@@ -21,6 +21,7 @@ Most programming languages provide a foreign function interface to the C languag
 - Python
 - Ruby
 - Rust
+- Tcl
 
 ### In-progress
 
@@ -72,7 +73,6 @@ Most programming languages provide a foreign function interface to the C languag
 - Smalltalk
 - Squirrel
 - Swift
-- Tcl
 - Typescript
 - Zig
 

@@ -104,3 +104,13 @@ rust:
   output: rust/target/debug/libhello.a
   requires: cargo
   root: /src/rust
+tcl:
+  build:
+  - xxd -i hello.tcl hello.tcl.h
+  - cc -c -o wrapper.o wrapper.c
+  entry: hello_tcl_native
+  includes: tcl.h
+  library: tcl
+  output: tcl/wrapper.o
+  requires: cc xxd
+  root: /src/tcl
