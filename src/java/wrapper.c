@@ -3,22 +3,12 @@
 
 #include "Hello.class.h"
 
+extern JNIEnv *env;
+extern JavaVM *vm;
+
 void hello_java() {
-    JavaVM *vm;
-    JNIEnv *env;
-    JavaVMInitArgs args;
-    jint res;
     jclass class;
     jmethodID method;
-
-    args.version = JNI_VERSION_10;
-    args.nOptions = 0;
-
-    res = JNI_CreateJavaVM(&vm, (void **)&env, &args);
-    if(res != JNI_OK) {
-        fputs("Failed to start JVM!", stderr);
-        return;
-    }
 
     class = (*env)->DefineClass(env, "Hello", NULL, (const jbyte *)Hello_class, Hello_class_len);
     if(class == NULL) {
@@ -33,6 +23,4 @@ void hello_java() {
     }
 
     (*env)->CallStaticVoidMethod(env, class, method);
-
-    (*vm)->DestroyJavaVM(vm);
 }

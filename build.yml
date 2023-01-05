@@ -7,7 +7,7 @@ languages:
     library: ""
     output: assembly/hello.as.o
     requires: as cc sh
-    runtimes: ""
+    runtime: ""
     root: /src/assembly
   c:
     build:
@@ -17,7 +17,7 @@ languages:
     library: c
     output: hello.c.o
     requires: cc
-    runtimes: ""
+    runtime: ""
     root: /src
   cpp:
     build:
@@ -27,7 +27,7 @@ languages:
     library: stdc++
     output: hello.cpp.o
     requires: cpp
-    runtimes: ""
+    runtime: ""
     root: /src
   d:
     build: 
@@ -37,7 +37,7 @@ languages:
     library: phobos2
     output: hello.d.o
     requires: dmd
-    runtimes: ""
+    runtime: ""
     root: /src
   fortran:
     build:
@@ -47,7 +47,7 @@ languages:
     library: gfortran
     output: hello.f90.o
     requires: gfortran
-    runtimes: ""
+    runtime: ""
     root: /src
   go:
     build:
@@ -58,7 +58,7 @@ languages:
     library: ""
     output: hello.go.a
     requires: go ranlib
-    runtimes: ""
+    runtime: ""
     root: /src
   java:
     build:
@@ -70,7 +70,7 @@ languages:
     library: jvm
     output: java/wrapper.o
     requires: cc javac xxd
-    runtimes: jvm
+    runtime: jvm
     root: /src/java
   lua:
     build:
@@ -82,7 +82,7 @@ languages:
     library: lua
     output: lua/wrapper.o
     requires: cc luac xxd
-    runtimes: ""
+    runtime: ""
     root: /src/lua
   python:
     build:
@@ -93,7 +93,7 @@ languages:
     library: python3.10
     output: python/wrapper.o
     requires: cc xxd
-    runtimes: ""
+    runtime: ""
     root: /src/python
   ruby:
     build:
@@ -104,7 +104,7 @@ languages:
     library: m ruby
     output: ruby/wrapper.o
     requires: cc xxd
-    runtimes: ""
+    runtime: ""
     root: /src/ruby
   rust:
     build:
@@ -114,7 +114,7 @@ languages:
     library: dl pthread
     output: rust/target/debug/libhello.a
     requires: cargo
-    runtimes: ""
+    runtime: ""
     root: /src/rust
   tcl:
     build:
@@ -125,7 +125,16 @@ languages:
     library: tcl
     output: tcl/wrapper.o
     requires: cc xxd
-    runtimes: ""
+    runtime: ""
     root: /src/tcl
 runtimes:
-  jvm: "Testing"
+  jvm:
+    build:
+    - cc -c -I/usr/lib/jvm/default/include -I/usr/lib/jvm/default/include/linux -o jvm.o jvm.c
+    fini: fini_jvm
+    includes: jni.h
+    init: init_jvm
+    library: jvm
+    output: runtime/jvm.o
+    requires: cc
+    root: /src/runtime

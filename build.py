@@ -39,29 +39,53 @@ entry_points = []
 commands = []
 libraries = set()
 objects = []
+rt_fini = []
+rt_init = []
 runtimes = set()
+
+# Step 1a: Check runtimes
+
+for rt, reqs in build["runtimes"].items():
+    if check_requirements(reqs["requires"], reqs["includes"]):
+        commands.append((reqs["root"], reqs["build"]))
+        rt_fini.append(reqs["fini"])
+        rt_init.append(reqs["init"])
+        for lib in reqs["library"].split():
+            libraries.add(lib)
+        objects.append(reqs["output"])
+        runtimes.add(rt)
 
 # TODO: Check to see which runtimes we have available and check their
 #       requirements. If the requirements are met add it to the set
 #       so languages can be filtered based on what we have available. ~Alex
 
+# Step 1b: Check languages
+
 for lang, instr in build["languages"].items():
-    # TODO: Ignore the language if the runtime required isn't listed above
-    if check_requirements(instr["requires"], instr["includes"]):
-        commands.append((instr["root"], instr["build"]))
-        entry_points.append(instr["entry"])
-        for lib in instr["library"].split():
-            libraries.add(lib)
-        objects.append(instr["output"])
+    if (instr["runtime"] == "") or (instr["runtime"] in runtimes):
+        if check_requirements(instr["requires"], instr["includes"]):
+            commands.append((instr["root"], instr["build"]))
+            entry_points.append(instr["entry"])
+            for lib in instr["library"].split():
+                libraries.add(lib)
+            objects.append(instr["output"])
 
 # Step 2: Compile the entry point for the program itself
 
 header = open("src/langs.h", "w")
 
+for init in rt_init:
+    header.write("extern const void " + init + "();" + os.linesep)
+
 for entry in entry_points:
     header.write("extern const void " + entry + "();" + os.linesep)
 
+for fini in rt_fini:
+    header.write("extern const void " + fini + "();" + os.linesep)
+
 header.write(os.linesep + "const void (*ENTRY_POINTS[])() = {" + ", ".join(entry_points) + "};" + os.linesep)
+header.write("const void (*RUNTIME_FINIS[])() = {" + ", ".join(rt_fini) + "};" + os.linesep)
+header.write("const void (*RUNTIME_INITS[])() = {" + ", ".join(rt_init) + "};" + os.linesep)
 
 header.close()
 
