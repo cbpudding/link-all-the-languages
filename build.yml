@@ -72,6 +72,18 @@ languages:
     requires: cc javac xxd
     runtime: jvm
     root: /src/java
+  kotlin:
+    build:
+    - kotlinc hello.kt
+    - xxd -i HelloKt.class HelloKt.class.h
+    - cc -c -I/usr/lib/jvm/default/include -I/usr/lib/jvm/default/include/linux -o wrapper.o wrapper.c
+    entry: hello_kotlin
+    includes: jni.h
+    library: jvm
+    output: kotlin/wrapper.o
+    requires: cc kotlinc xxd
+    runtime: jvm
+    root: /src/kotlin
   lua:
     build:
     - luac -o hello.luac hello.lua
