@@ -11,6 +11,7 @@ Most programming languages provide a foreign function interface to the C languag
 ### Implemented
 
 - C
+- Lua
 
 ### In-progress
 
@@ -21,7 +22,6 @@ Most programming languages provide a foreign function interface to the C languag
 - Go
 - Java
 - Kotlin
-- Lua
 - Python
 - Rexx
 - Ruby
