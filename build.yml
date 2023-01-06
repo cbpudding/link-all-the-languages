@@ -11,7 +11,7 @@ languages:
     root: /src/assembly
   c:
     build:
-    - cc -c -o hello.c.o hello.c
+    - cc -I../include -c -o hello.c.o hello.c
     entry: hello_c
     includes: ""
     library: c
@@ -88,7 +88,7 @@ languages:
     build:
     - luac -o hello.luac hello.lua
     - xxd -i hello.luac hello.luac.h
-    - cc -c -o wrapper.o wrapper.c
+    - cc -I../../include -c -o wrapper.o wrapper.c
     entry: hello_lua
     includes: lua.h lauxlib.h lualib.h
     library: lua

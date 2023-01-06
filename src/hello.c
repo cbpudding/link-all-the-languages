@@ -1,7 +1,6 @@
-#include <stdbool.h>
 #include <stdio.h>
 
-extern bool challenge(int c);
+#include "challenge.h"
 
 void hello_c(int c) {
     puts("Hello from C!");

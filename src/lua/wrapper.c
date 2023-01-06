@@ -1,11 +1,9 @@
 #include <lua.h>
 #include <lauxlib.h>
 #include <lualib.h>
-#include <stdbool.h>
 
+#include "challenge.h"
 #include "hello.luac.h"
-
-extern bool challenge(int c);
 
 static int lua_challenge(lua_State *L) {
     int c = luaL_checkinteger(L, 1);
