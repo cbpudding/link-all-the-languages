@@ -10,8 +10,11 @@ Most programming languages provide a foreign function interface to the C languag
 
 ### Implemented
 
-- Assembly
 - C
+
+### In-progress
+
+- Assembly
 - C++
 - D
 - Fortran
@@ -24,10 +27,6 @@ Most programming languages provide a foreign function interface to the C languag
 - Ruby
 - Rust
 - Tcl
-
-### In-progress
-
-*None right now*
 
 ### To-do
 

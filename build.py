@@ -78,7 +78,7 @@ for init in rt_init:
     header.write("extern const void " + init + "();" + os.linesep)
 
 for entry in entry_points:
-    header.write("extern const void " + entry + "();" + os.linesep)
+    header.write("extern const void " + entry + "(int challenge);" + os.linesep)
 
 for fini in rt_fini:
     header.write("extern const void " + fini + "();" + os.linesep)
