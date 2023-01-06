@@ -20,13 +20,14 @@ Most programming languages provide a foreign function interface to the C languag
 - Kotlin
 - Lua
 - Python
+- Rexx
 - Ruby
 - Rust
 - Tcl
 
 ### In-progress
 
-*Nothing yet*
+*None right now*
 
 ### To-do
 
@@ -83,7 +84,6 @@ Most programming languages provide a foreign function interface to the C languag
 - Racket
 - Raku
 - Ratfor
-- Rexx
 - RPG
 - Scala
 - Scheme

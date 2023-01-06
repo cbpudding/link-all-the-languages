@@ -107,6 +107,17 @@ languages:
     requires: cc xxd
     runtime: ""
     root: /src/python
+  rexx:
+    build:
+    - xxd -i hello.rex hello.rex.h
+    - cc -c -o wrapper.o wrapper.c
+    entry: hello_rexx
+    includes: rexxsaa.h
+    library: regina
+    output: rexx/wrapper.o
+    requires: cc xxd
+    runtime: ""
+    root: /src/rexx
   ruby:
     build:
     - xxd -i hello.rb hello.rb.h
