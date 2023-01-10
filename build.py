@@ -24,12 +24,22 @@ def which(program):
     
     return None
 
+# Utility function for finding header files
+def locate(library):
+    # TODO: How should we handle searching on Windows?
+    paths = ["/usr/include", "/usr/local/include"]
+    for path in paths:
+        victim = f"{path}/{library}"
+        if os.path.isfile(victim):
+            return victim
+    return None
+
 def check_requirements(reqs, incs):
     for r in reqs.split():
         if which(r) == None:
             return False
     for i in incs.split():
-        if False: # TODO: Check the library search path for the header files
+        if locate(i) == None:
             return False
     return True
 
