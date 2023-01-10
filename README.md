@@ -10,28 +10,18 @@ Most programming languages provide a foreign function interface to the C languag
 
 ### Tier 3 (Statically linked and fully interoperable)
 
-*To be determined*
+- Assembly
+- C
 
 ### Tier 2 (Can call C and be called by C)
 
-*To be determined*
-
-### Tier 1 (Can be called by C)
-
-*To be determined*
-
-### Implemented
-
-- C
 - C++
 - D
 - Lua
 - Rust
 
-### In-progress
+### Tier 1 (Can be called by C)
 
-- Assembly
-- C#
 - Fortran
 - Go
 - Java
@@ -40,6 +30,10 @@ Most programming languages provide a foreign function interface to the C languag
 - Rexx
 - Ruby
 - Tcl
+
+### In-progress
+
+- C#
 
 ### To-do
 

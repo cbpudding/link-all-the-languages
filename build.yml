@@ -11,7 +11,7 @@ languages:
     root: /src/assembly
   c:
     build:
-    - cc -I../include -c -o hello.c.o hello.c
+    - cc -static -I../include -c -o hello.c.o hello.c
     entry: hello_c
     includes: ""
     library: c

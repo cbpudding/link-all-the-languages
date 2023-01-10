@@ -114,8 +114,8 @@ for (root, cmds) in commands:
 
 os.chdir(base + "/src")
 
-print("cc -c -o main.o main.c")
-if os.system("cc -c -o main.o main.c") != 0:
+print("cc -static -c -o main.o main.c")
+if os.system("cc -static -c -o main.o main.c") != 0:
     print("Failed to compile the program's entry point! Do you have a C compiler installed?")
     exit(1)
 
