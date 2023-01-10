@@ -11,14 +11,14 @@ Most programming languages provide a foreign function interface to the C languag
 ### Implemented
 
 - C
+- C++
+- D
 - Lua
 - Rust
 
 ### In-progress
 
 - Assembly
-- C++
-- D
 - Fortran
 - Go
 - Java
