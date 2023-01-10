@@ -1,5 +1,8 @@
 import std.stdio;
 
-extern (C) void hello_d() {
+extern (C) bool challenge(int c);
+
+extern (C) void hello_d(int c) {
     writeln("Hello from D!");
+    challenge(c + 5);
 }
