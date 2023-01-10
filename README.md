@@ -8,6 +8,18 @@ Most programming languages provide a foreign function interface to the C languag
 
 ## Languages
 
+### Tier 3 (Statically linked and fully interoperable)
+
+*To be determined*
+
+### Tier 2 (Can call C and be called by C)
+
+*To be determined*
+
+### Tier 1 (Can be called by C)
+
+*To be determined*
+
 ### Implemented
 
 - C
@@ -19,6 +31,7 @@ Most programming languages provide a foreign function interface to the C languag
 ### In-progress
 
 - Assembly
+- C#
 - Fortran
 - Go
 - Java
@@ -39,7 +52,6 @@ Most programming languages provide a foreign function interface to the C languag
 - BCPL
 - Boo
 - Bosque
-- C#
 - C--
 - Caml
 - Carbon
