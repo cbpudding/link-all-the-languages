@@ -66,7 +66,7 @@ languages:
     - xxd -i Hello.class Hello.class.h
     - cc -c -I/usr/lib/jvm/default/include -I/usr/lib/jvm/default/include/linux -o wrapper.o wrapper.c
     entry: hello_java
-    includes: jni.h
+    includes: ../lib/jvm/default/include/jni.h
     library: jvm
     output: java/wrapper.o
     requires: cc javac xxd
@@ -78,7 +78,7 @@ languages:
     - xxd -i HelloKt.class HelloKt.class.h
     - cc -c -I/usr/lib/jvm/default/include -I/usr/lib/jvm/default/include/linux -o wrapper.o wrapper.c
     entry: hello_kotlin
-    includes: jni.h
+    includes: ../lib/jvm/default/include/jni.h
     library: jvm
     output: kotlin/wrapper.o
     requires: cc kotlinc xxd
@@ -155,7 +155,7 @@ runtimes:
     build:
     - cc -c -I/usr/lib/jvm/default/include -I/usr/lib/jvm/default/include/linux -o jvm.o jvm.c
     fini: fini_jvm
-    includes: jni.h
+    includes: ../lib/jvm/default/include/jni.h
     init: init_jvm
     library: jvm
     output: runtime/jvm.o
