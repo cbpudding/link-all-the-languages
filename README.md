@@ -31,10 +31,6 @@ Most programming languages provide a foreign function interface to the C languag
 - Ruby
 - Tcl
 
-### In-progress
-
-- C#
-
 ### To-do
 
 - Ada
@@ -46,6 +42,7 @@ Most programming languages provide a foreign function interface to the C languag
 - BCPL
 - Boo
 - Bosque
+- C#
 - C--
 - Caml
 - Carbon
