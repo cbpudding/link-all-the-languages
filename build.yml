@@ -63,8 +63,9 @@ languages:
   java:
     build:
     - javac Hello.java
+    - javac -h jni Hello.java
     - xxd -i Hello.class Hello.class.h
-    - cc -c -I/usr/lib/jvm/default/include -I/usr/lib/jvm/default/include/linux -o wrapper.o wrapper.c
+    - cc -c -I../../include -I/usr/lib/jvm/default/include -I/usr/lib/jvm/default/include/linux -o wrapper.o wrapper.c
     entry: hello_java
     includes: ../lib/jvm/default/include/jni.h
     library: jvm

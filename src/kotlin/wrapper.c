@@ -12,13 +12,13 @@ void hello_kotlin() {
 
     class = (*env)->DefineClass(env, "HelloKt", NULL, (const jbyte *)HelloKt_class, HelloKt_class_len);
     if(class == NULL) {
-        fputs("Failed to locate class!", stderr);
+        fputs("hello_kotlin: Failed to locate class!\r\n", stderr);
         return;
     }
 
     method = (*env)->GetStaticMethodID(env, class, "hello_kotlin", "()V");
     if(method == NULL) {
-        fputs("Failed to locate hello_java function!", stderr);
+        fputs("hello_kotlin: Failed to locate hello_java function!\r\n", stderr);
         return;
     }
 

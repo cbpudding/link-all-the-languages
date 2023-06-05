@@ -3,6 +3,7 @@
 /src/**/*.class
 /src/**/*.h
 /src/**/*.o
+/src/java/jni
 /src/kotlin/META-INF
 /src/lua/hello.luac
 /src/rust/Cargo.lock
