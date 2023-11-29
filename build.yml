@@ -97,6 +97,16 @@ languages:
     requires: cc luac xxd
     runtime: ""
     root: /src/lua
+  nim:
+    build:
+    - nim c --noMain --app:staticlib -o:hello.nim.a hello.nim
+    entry: hello_nim
+    includes: ""
+    library: c
+    output: hello.nim.a
+    requires: nim
+    runtime: ""
+    root: /src
   python:
     build:
     - xxd -i hello.py hello.py.h
