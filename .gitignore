@@ -8,4 +8,6 @@
 /src/lua/hello.luac
 /src/rust/Cargo.lock
 /src/rust/target
+/src/zig/zig-cache
+/src/zig/zig-out
 /_obj

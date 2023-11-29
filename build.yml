@@ -151,6 +151,16 @@ languages:
     requires: cc xxd
     runtime: ""
     root: /src/tcl
+  zig:
+    build:
+    - zig build-lib -O ReleaseFast src/main.zig -fPIE -I../../include -femit-bin=zig-out/lib/libzig.a
+    entry: hello_zig
+    includes: ""
+    library: ""
+    output: zig/zig-out/lib/libzig.a
+    requires: zig
+    runtime: ""
+    root: /src/zig
 runtimes:
   jvm:
     build:
