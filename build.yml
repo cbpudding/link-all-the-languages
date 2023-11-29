@@ -21,7 +21,7 @@ languages:
     root: /src
   cpp:
     build:
-    - c++ -I../include -c -o hello.cpp.o hello.cpp
+    - c++ -static -I../include -c -o hello.cpp.o hello.cpp
     entry: hello_cpp
     includes: ""
     library: stdc++

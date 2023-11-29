@@ -12,11 +12,11 @@ Most programming languages provide a foreign function interface to the C languag
 
 - Assembly
 - C
+- C++
 - Nim
 
 ### Tier 2 (Can call C and be called by C)
 
-- C++
 - D
 - Lua
 - Rust
