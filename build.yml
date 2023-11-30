@@ -112,8 +112,8 @@ languages:
     - xxd -i hello.py hello.py.h
     - cc -c -o wrapper.o wrapper.c
     entry: hello_python
-    includes: python3.10/Python.h
-    library: python3.10
+    includes: python3.11/Python.h
+    library: python3.11
     output: python/wrapper.o
     requires: cc xxd
     runtime: ""
