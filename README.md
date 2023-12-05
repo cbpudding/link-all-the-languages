@@ -12,11 +12,12 @@ Most programming languages provide a foreign function interface to the C languag
 
 - Assembly
 - C
+- C++
+- Nim
 - Zig
 
 ### Tier 2 (Can call C and be called by C)
 
-- C++
 - D
 - Lua
 - Rust
@@ -74,7 +75,6 @@ Most programming languages provide a foreign function interface to the C languag
 - MATLAB
 - Mercury
 - Modula-3
-- Nim
 - OCaml
 - Oz
 - Pascal
@@ -95,7 +95,6 @@ Most programming languages provide a foreign function interface to the C languag
 - Swift
 - Typescript
 - Unison
-- Zig
 
 ### Impossible
 

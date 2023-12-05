@@ -21,7 +21,7 @@ languages:
     root: /src
   cpp:
     build:
-    - c++ -I../include -c -o hello.cpp.o hello.cpp
+    - c++ -static -I../include -c -o hello.cpp.o hello.cpp
     entry: hello_cpp
     includes: ""
     library: stdc++
@@ -97,13 +97,23 @@ languages:
     requires: cc luac xxd
     runtime: ""
     root: /src/lua
+  nim:
+    build:
+    - nim c --noMain --app:staticlib -o:hello.nim.a hello.nim
+    entry: hello_nim
+    includes: ""
+    library: c
+    output: hello.nim.a
+    requires: nim
+    runtime: ""
+    root: /src
   python:
     build:
     - xxd -i hello.py hello.py.h
     - cc -c -o wrapper.o wrapper.c
     entry: hello_python
-    includes: python3.10/Python.h
-    library: python3.10
+    includes: python3.11/Python.h
+    library: python3.11
     output: python/wrapper.o
     requires: cc xxd
     runtime: ""
