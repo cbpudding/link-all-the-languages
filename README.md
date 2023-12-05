@@ -12,6 +12,7 @@ Most programming languages provide a foreign function interface to the C languag
 
 - Assembly
 - C
+- Zig
 
 ### Tier 2 (Can call C and be called by C)
 
