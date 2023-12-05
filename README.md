@@ -14,6 +14,7 @@ Most programming languages provide a foreign function interface to the C languag
 - C
 - C++
 - Nim
+- Zig
 
 ### Tier 2 (Can call C and be called by C)
 
@@ -94,7 +95,6 @@ Most programming languages provide a foreign function interface to the C languag
 - Swift
 - Typescript
 - Unison
-- Zig
 
 ### Impossible
 
